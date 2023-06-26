@@ -1,7 +1,5 @@
 import Card from "../models/card";
-import axios from 'axios';
-
-class CardController {
+const CardController = () => {
     url: string;
     public cards: Array<Card>;
     public filter: Card;
@@ -29,12 +27,12 @@ class CardController {
     }
 
     private get(card: Card): Promise<any>{
-        return axios.get(this.url,{
+        return get(this.url,{
             params:{ name: card.name }
         });
     }
     post(card: Card): Promise<any>{
-        return axios.get(this.url,{
+        return get(this.url,{
             params: card
         });
     }
