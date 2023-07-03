@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "../../../core/models/card";
+import Card from "../../../../core/models/card";
 import {
   CardAmount,
   CardEdition,

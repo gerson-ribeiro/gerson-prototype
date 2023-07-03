@@ -13,7 +13,7 @@ export const TabNavigatorComponent: React.FC<TabNavigationProps> = ({
 }) => {
   return (
     <Tab.Navigator>
-      {tabs?.map(({ name, component, svg }) => {
+      {tabs?.map(({ name, component, svg }) => (
         <Tab.Screen
           name={name}
           component={component}
@@ -21,8 +21,8 @@ export const TabNavigatorComponent: React.FC<TabNavigationProps> = ({
             headerShown: headerShown,
             tabBarIcon: ({ color }) => svg,
           }}
-        />;
-      })}
+        />
+      ))}
     </Tab.Navigator>
   );
 };

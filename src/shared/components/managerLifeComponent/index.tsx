@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native-svg";
 import OkSVG from "../../../../assets/done_black_24dp.svg";
 import {
   ButtonAddLife,

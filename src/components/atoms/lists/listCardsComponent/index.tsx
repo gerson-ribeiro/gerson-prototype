@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import CardController from "../../../core/controllers/CardController";
-import Card from "../../../core/models/card";
+import CardController from "../../../../core/controllers/CardController";
+import Card from "../../../../core/models/card";
 import { Container, Loading, Search } from "./styles";
-import ListCardAdapter from "../../adapters/ListCardAdapter";
-import ListCardViewComponent from "../../../shared/components/ListCardsViewComponent";
+import ListCardViewComponent from "../../../../shared/components/ListCardsViewComponent";
 
 export const ListCardComponent: React.FC<any> = ({ navigation }) => {
   const cards_res = CardController({});

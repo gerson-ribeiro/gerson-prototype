@@ -2,8 +2,8 @@ import { DrawerToggleButton } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { useLayoutEffect } from "react";
 import MyDecksComponent from "../../lists/MyDecksComponent";
-import DeckEditComponent from "../../templates/DeckEditComponent";
-import DeckViewComponent from "../../templates/DeckViewComponent";
+import DeckEditComponent from "../../../templates/DeckEditComponent";
+import DeckViewComponent from "../../../templates/DeckViewComponent";
 
 const Stack = createStackNavigator();
 

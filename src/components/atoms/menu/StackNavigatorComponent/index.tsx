@@ -4,7 +4,7 @@ import React, { useLayoutEffect } from "react";
 import { Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ListCardComponent } from "../../lists/listCardsComponent";
-import CardViewComponent from "../../templates/CardViewComponent";
+import CardViewComponent from "../../../templates/CardViewComponent";
 
 const Stack = createStackNavigator();
 

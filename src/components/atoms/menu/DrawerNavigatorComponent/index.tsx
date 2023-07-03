@@ -1,6 +1,6 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import LifeCounterComponent from "../../templates/LifeCounterComponent";
+import LifeCounterComponent from "../../../templates/LifeCounterComponent";
 import { createStackNavigator } from "@react-navigation/stack";
 import StackNavigatorComponent from "../StackNavigatorComponent";
 import DecksStackNavigatorComponent from "../DecksStackNavigatorComponent";

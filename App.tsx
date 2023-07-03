@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import DrawerNavigatorComponent from "./src/components/menu/DrawerNavigatorComponent";
+import DrawerNavigatorComponent from "./src/components/atoms/menu/DrawerNavigatorComponent";
 
 const myTheme = {
   dark: false,
