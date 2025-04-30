@@ -1,9 +1,8 @@
-import storageService from "jade-request/src/utils/storageService";
 
-const storage = storageService;
+const storage = localStorage;
 
 const useStorage = (repoName: string) => {
-  const get = () => {
+  const get = (filters? : any) => {
     const json = storage.get(repoName);
     if (json) return JSON.parse(json);
     else throw new Error("Nada encontrado!");

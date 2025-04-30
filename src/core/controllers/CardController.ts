@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Card from "../models/card";
 import cardService from "../services/requester/card";
-import { QueryFormatter } from "jade-request";
 
-const query = QueryFormatter;
-const { get, post, put, delete: deleteCard } = cardService;
+const { get } = cardService();
 interface ICardProvider {
   endpoint?: string;
   filter?: Card;
@@ -14,43 +12,45 @@ interface ICardService {
   loading: boolean;
   get: (
     callback: (data: { cards: any }) => void,
-    onFail?: (err: any) => void,
     onFinally?: () => void
   ) => void;
+}
+function objectToQueryString(obj: any) {
+  return Object.keys(obj)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+    .join("&");
 }
 
 const CardController: (args?: ICardProvider) => ICardService = ({
   endpoint = "cards",
   filter = new Card(),
   loading = false,
-}) => {
+}: ICardProvider | any) => {
   const [cards, setCards] = useState([]);
   const [_loading, setLoading] = useState(loading);
 
-  function _get(filter: any): Promise<any> {
-    return get(endpoint + "?" + query(filter));
+  async function _get(filter: any): Promise<any> {
+    return await get(endpoint + "?" + objectToQueryString(filter));
   }
-  useState;
 
-  const getC = (
+  const getC = async (
     callback: (data: { cards: any }) => void,
-    onFail?: (err: any) => void,
     onFinally?: () => void
   ) => {
+    debugger;
     setLoading(true);
-    _get(filter)
-      .then(({ data }) => {
-        setCards(data.cards);
-        callback(data);
-      })
-      .catch(onFail)
-      .finally(() => {
-        setLoading(false);
-        if (onFinally) onFinally();
-      });
+    const data = await _get(filter);
+    
+    setCards(data.cards);
+    callback(data);
+    setLoading(false);
+    if (onFinally) onFinally();
+
+    return data;
   };
 
   return {
+    cards,
     get: getC,
     loading: _loading,
   };

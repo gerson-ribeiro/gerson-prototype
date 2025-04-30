@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import DrawerNavigatorComponent from "./src/components/atoms/menu/DrawerNavigatorComponent";
+import { TabNavigatorComponent } from "./src/components/atoms/menu/TabNavigatorComponent";
 
 const myTheme = {
   dark: false,
@@ -18,7 +19,7 @@ const App = () => {
   return (
     <NavigationContainer theme={myTheme}>
       <DrawerNavigatorComponent />
-      {/* <TabNavigatorComponent /> */}
+      <TabNavigatorComponent />
     </NavigationContainer>
   );
 };

@@ -1,7 +1,13 @@
-import Requester from "jade-request/src/requester";
+import axios from "axios";
 
-const cardService = Requester({
-  url: "https://api.magicthegathering.io/v1/",
-}).doRequest;
+const cardService = function () {
+  const get = async (filters?:any) => await axios({
+    method: "GET",
+    url: `https://api.magicthegathering.io/v1/${filters}`,
+  });
 
+  return {
+    get,
+  }
+};
 export default cardService;
