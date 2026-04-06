@@ -1,8 +1,9 @@
 import React from "react";
+import { ScrollView } from "react-native";
 import ListCardAdapter from "../../../components/atoms/adapters/ListCardAdapter";
 import ListCardAmountAdapter from "../../../components/atoms/adapters/ListCardAmountAdapter";
 import Card from "../../../core/models/card";
-import { ListCard, ListCardView } from "./styles";
+import { ListCardView } from "./styles";
 
 interface IListCardViewProps {
   cards?: Array<Card>;
@@ -10,6 +11,7 @@ interface IListCardViewProps {
   onChangeAmountCallback?: (amount: number) => void;
   onCardPress: (card: Card) => void;
   height?: string;
+  ScrollComponent?: React.ComponentType<any>;
 }
 
 const ListCardViewComponent: React.FC<IListCardViewProps> = ({
@@ -18,9 +20,9 @@ const ListCardViewComponent: React.FC<IListCardViewProps> = ({
   onChangeAmountCallback,
   onCardPress,
   height = "100%",
+  ScrollComponent = ScrollView,
 }) => {
   const onChangeAmount = (amount: number) => {
-    console.log("quantidade", amount);
     if (onChangeAmountCallback) {
       onChangeAmountCallback(amount);
     }
@@ -29,7 +31,7 @@ const ListCardViewComponent: React.FC<IListCardViewProps> = ({
   return (
     <ListCardView>
       {cards && (
-        <ListCard style={{ height }}>
+        <ScrollComponent style={{ flex: 1 }}>
           {cards.map((card, index) => (
             <ListCardAdapter
               key={index}
@@ -37,10 +39,10 @@ const ListCardViewComponent: React.FC<IListCardViewProps> = ({
               onCardPress={onCardPress}
             />
           ))}
-        </ListCard>
+        </ScrollComponent>
       )}
       {deckList && (
-        <ListCard style={{ height }}>
+        <ScrollComponent style={{ flex: 1 }}>
           {deckList.map(({ card, amount }, index) => (
             <ListCardAmountAdapter
               key={index}
@@ -50,7 +52,7 @@ const ListCardViewComponent: React.FC<IListCardViewProps> = ({
               callback={onChangeAmount}
             />
           ))}
-        </ListCard>
+        </ScrollComponent>
       )}
     </ListCardView>
   );

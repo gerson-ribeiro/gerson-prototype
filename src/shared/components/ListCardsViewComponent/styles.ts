@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 export const ListCardView = styled.View`
     margin-top: 5px;
     width: 100%;
-    background-color: #ddd;
+    flex: 1;
 `;
 
 export const ListCard = styled.ScrollView`

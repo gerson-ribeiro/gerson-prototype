@@ -24,7 +24,6 @@ export const Container = styled.View`
 export const ItemsView = styled.TouchableOpacity`
     width: 100%;
     padding: 20px;
-    
 `;
 
 export const ItemsCard = styled.Text`

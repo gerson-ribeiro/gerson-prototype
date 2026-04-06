@@ -2,7 +2,11 @@ import React from "react";
 import ListCardViewComponent from "../../../shared/components/ListCardsViewComponent";
 import { Container, DeckFormat, DeckName } from "./styles";
 
-const DeckViewComponent: React.FC<any> = ({ deck, navigation }) => {
+const DeckViewComponent: React.FC<any> = (props)=> {
+  console.log("props", props);
+  const { navigation, route } = props;
+  const { deck } = route.params;
+  console.log("deck", deck);
   const onCardPressHandler = (e: any) => {
     console.log(e);
   };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Card from "../../../../core/models/card";
 import {
   CardAmount,
@@ -22,12 +22,16 @@ const ListCardAmountAdapter: React.FC<IListCardAmountProps> = ({
   onCardPress,
 }) => {
   const [new_amount, setAmount] = useState(amount);
+  const isMounted = useRef(false);
   useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
     callback(new_amount);
   }, [new_amount]);
 
   const handleAmountChange = (value: string) => {
-    console.log("value", value);
     setAmount(parseInt(value));
   };
   return (

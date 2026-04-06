@@ -1,71 +1,100 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { StyleSheet } from "react-native";
 import CardController from "../../../core/controllers/CardController";
 import Card from "../../../core/models/card";
 import ListCardViewComponent from "../../components/ListCardsViewComponent";
+import { Amount, Search, TextArea } from "./styles";
+import { Loading } from "../../../components/atoms/lists/listCardsComponent/styles";
 
-import {
-  Amount,
-  Background,
-  Container,
-  Main,
-  Search,
-  TextArea,
-} from "./styles";
 interface IAddCardProps {
-  modalVisible: boolean;
-  onRequestClose: () => void;
-  dismiss: () => void;
   onSelectCard: (card: Card, amount: number) => void;
-  transparent?: boolean;
+  dismiss: () => void;
+  cardName?: string;
+  amount?: number;
 }
 
-const AddCardModal: React.FC<IAddCardProps> = ({
-  modalVisible,
-  onRequestClose,
-  onSelectCard,
-  dismiss,
-  transparent = false,
-}) => {
-  const [card_name, setCard_name] = useState("");
-  const [card_amount, setcard_amount] = useState(1);
-  const [listCards, setListCards] = useState(new Array<Card>());
-  const card_res = CardController({ filter: { name: card_name } });
+const AddCardBottomSheet = forwardRef<BottomSheetModal, IAddCardProps>(
+  ({ onSelectCard, dismiss, cardName = '', amount = 0 }, ref) => {
+    const [card_name, setCard_name] = useState(cardName);
+    const [card_amount, setcard_amount] = useState<number>(amount);
+    const [listCards, setListCards] = useState(new Array<Card>());
+    const card_res = CardController({ filter: { name: card_name } });
 
-  const onCardNameChange = (e: string) => {
-    setCard_name(e);
-  };
-  const onCardAmountChange = (e: string) => {
-    setcard_amount(parseInt(e));
-  };
+    const snapPoints = useMemo(() => ["45%", "90%"], []);
 
-  const getCards = () => {
-    card_res.get((data) => {
-      setListCards(data.cards);
-    });
-  };
+    const onCardNameDone = (e: any) => {
+      setCard_name(e.nativeEvent.text);
+    };
+    const onCardAmountChange = (e: string) => {
+      setcard_amount(parseInt(e) || 1);
+    };
 
-  const onCardPressed = (card: Card) => {
-    if (card_amount <= 0) {
-      alert("Selecione uma quantidade válida");
-      return;
-    }
-    onSelectCard(card, card_amount);
-  };
+    const getCards = () => {
+      card_res.get(({ cards }) => {
+        setListCards(cards);
+      });
+    };
 
-  useEffect(() => {
-    getCards();
-  }, [card_name]);
+    const onCardPressed = (card: Card) => {
+      if (card_amount <= 0) {
+        alert("Selecione uma quantidade válida");
+        return;
+      }
+      onSelectCard(card, card_amount);
+      dismiss();
+      resetStates();
+    };
 
-  return (
-    <Container
-      animationType="slide"
-      transparent={transparent}
-      visible={modalVisible}
-      onRequestClose={onRequestClose}
-    >
-      <Background onPress={dismiss}>
-        <Main>
+    const resetStates = () => {
+      setCard_name("");
+      setcard_amount(0);
+      setListCards(new Array<Card>());
+    };
+
+    const handleSheetChanges = useCallback(
+      (index: number) => {
+        if (index === -1) {
+          dismiss();
+          resetStates();
+          return;
+        }
+      },
+      [dismiss],
+    );
+
+    useEffect(() => {
+      if (card_name.length > 2) getCards();
+    }, [card_name]);
+
+    useEffect(()=>{
+      if(amount > 0) setcard_amount(amount);
+      if(cardName) setCard_name(cardName);
+    }, [cardName, amount])
+
+    return (
+      <BottomSheetModal
+        ref={ref}
+        index={0}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enablePanDownToClose={false}
+        enableDynamicSizing={false}
+        enableContentPanningGesture={false}
+        backgroundStyle={styles.background}
+        handleIndicatorStyle={styles.indicator}
+      >
+        <BottomSheetView style={styles.container}>
           <TextArea>
             <Amount
               keyboardType="numeric"
@@ -74,18 +103,37 @@ const AddCardModal: React.FC<IAddCardProps> = ({
             />
             <Search
               placeholder="Nome do card"
-              onChangeText={onCardNameChange}
+              onSubmitEditing={(e: any) => setCard_name(e.nativeEvent.text)}
             />
           </TextArea>
-          <ListCardViewComponent
-            height="86%"
-            onCardPress={onCardPressed}
-            cards={listCards}
-          />
-        </Main>
-      </Background>
-    </Container>
-  );
-};
+          {!card_res.loading ? (
+            <ListCardViewComponent
+              onCardPress={onCardPressed}
+              cards={listCards}
+              ScrollComponent={BottomSheetScrollView}
+            />
+          ) : (
+            <Loading />
+          )}
+        </BottomSheetView>
+      </BottomSheetModal>
+    );
+  },
+);
 
-export default AddCardModal;
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+  },
+  indicator: {
+    backgroundColor: "#ccc",
+    width: 40,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+});
+
+export default AddCardBottomSheet;

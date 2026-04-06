@@ -12,7 +12,7 @@ export const Container = styled.View`
 `;
 
 export const CardImage = styled.Image`
-    height:80%;
+    height:100%;
     width:100%;
     align-self:center;
 `;

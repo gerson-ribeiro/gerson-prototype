@@ -21,8 +21,8 @@ const DrawerNavigatorComponent: React.FC = () => {
         component={DecksStackNavigatorComponent}
       />
       <Drawer.Screen name="Marcador de Vida" component={LifeCounterComponent} />
-      <Drawer.Screen name="Minha Want" component={LifeCounterComponent} />
-      <Drawer.Screen name="Minhas Passantes" component={LifeCounterComponent} />
+      {/* <Drawer.Screen name="Minha Want" component={LifeCounterComponent} />
+      <Drawer.Screen name="Minhas Passantes" component={LifeCounterComponent} /> */}
     </Drawer.Navigator>
   );
 };

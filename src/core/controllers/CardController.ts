@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Card from "../models/card";
 import cardService from "../services/requester/card";
 
-const { get } = cardService();
+const { get: getCards } = cardService();
 interface ICardProvider {
   endpoint?: string;
   filter?: Card;
@@ -15,6 +15,7 @@ interface ICardService {
     onFinally?: () => void
   ) => void;
 }
+
 function objectToQueryString(obj: any) {
   return Object.keys(obj)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
@@ -30,17 +31,16 @@ const CardController: (args?: ICardProvider) => ICardService = ({
   const [_loading, setLoading] = useState(loading);
 
   async function _get(filter: any): Promise<any> {
-    return await get(endpoint + "?" + objectToQueryString(filter));
+    return await getCards(endpoint + "?" + objectToQueryString(filter));
   }
 
   const getC = async (
     callback: (data: { cards: any }) => void,
     onFinally?: () => void
   ) => {
-    debugger;
     setLoading(true);
-    const data = await _get(filter);
-    
+    const { data } = await _get(filter);
+
     setCards(data.cards);
     callback(data);
     setLoading(false);
@@ -52,7 +52,7 @@ const CardController: (args?: ICardProvider) => ICardService = ({
   return {
     cards,
     get: getC,
-    loading: _loading,
+    loading: _loading
   };
 };
 

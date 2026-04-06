@@ -1,4 +1,5 @@
 class Card {
+    id?: string = "";
     name!: string;
     names?: string[] | undefined;
     manaCost?: string | undefined;

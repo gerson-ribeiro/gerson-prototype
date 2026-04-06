@@ -12,11 +12,12 @@ const ListDeckViewComponent: React.FC<IListDeckViewProps> = ({
   decks,
   navigation,
 }) => {
+  console.log("decks", decks);
   return (
     <ListDeckView>
       {decks.length > 0 &&
-        decks.map((deck) => (
-          <ListDeckAdapter deck={deck} navigation={navigation} />
+        decks.map((deck, index) => (
+          <ListDeckAdapter key={index} deck={deck} navigation={navigation} />
         ))}
     </ListDeckView>
   );

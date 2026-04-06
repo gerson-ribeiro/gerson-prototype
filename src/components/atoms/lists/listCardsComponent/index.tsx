@@ -6,16 +6,18 @@ import { Container, Loading, Search } from "./styles";
 import ListCardViewComponent from "../../../../shared/components/ListCardsViewComponent";
 
 export const ListCardComponent: React.FC<any> = ({ navigation }) => {
-  const cards_res = CardController({});
   const [cards, setListCards] = useState(new Array<Card>());
   const [card, setCard] = useState(new Card());
+  const cards_res = CardController({
+    filter:{
+      name: card.name
+    }
+  });
   const [loading, setLoading] = useState(false);
 
   const getCards = () => {
     cards_res.get(
-      ({ cards: _cards }) => setListCards(_cards),
-      (e) => setListCards(new Array<Card>()),
-      () => setLoading(false)
+      ({ cards: _cards }) => setListCards(_cards)
     );
   };
 
@@ -38,13 +40,17 @@ export const ListCardComponent: React.FC<any> = ({ navigation }) => {
     if (card.name) getCards();
   }, [card]);
 
+  useEffect(() => {
+    setLoading(cards_res.loading);
+  }, [cards_res.loading]);
+
   return (
     <Container>
       <Search onChangeText={onChangeCardName} />
       {loading ? (
         <Loading>Carregando...</Loading>
       ) : (
-        <ListCardViewComponent cards={cards} onCardPress={avancar} />
+        <ListCardViewComponent cards={cards} onCardPress={avancar} height="93%" />
       )}
     </Container>
   );

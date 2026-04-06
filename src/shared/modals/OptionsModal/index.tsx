@@ -34,8 +34,9 @@ const OptionsModal: React.FC<IOptionsModalProps> = ({
             <Background onPress={dismiss}>
                 <Container>
                     {arrayOptionsWithCallback.map(
-                        ({ option, callback, item }) => (
+                        ({ option, callback, item }, index) => (
                             <ItemsView
+                                key={index}
                                 onPress={() => {
                                     callback(item);
                                     dismiss();

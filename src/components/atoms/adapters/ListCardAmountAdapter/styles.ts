@@ -12,6 +12,7 @@ export const ClickMe = styled.TouchableOpacity`
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
+    border-bottom: 0.5px solid #000;
 `;
 export const CardAmount = styled.TextInput`
     align-self: flex-start;
